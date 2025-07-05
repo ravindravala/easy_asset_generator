@@ -1,6 +1,6 @@
 # Changelog
 
-## 0.1.0
+## 0.0.2
 
 - **Enhanced File Name Handling**: Added intelligent extension-based prefixing system to handle reserved keywords and files starting with numbers
   - Files like `default.svg` now generate as `svgDefault` (safe from Dart reserved keywords)
