@@ -1,6 +1,6 @@
 name: easy_asset_generator
 description: A Flutter asset code generator that creates structured Dart accessors for asset folders.
-version: 0.0.1
+version: 0.0.2
 homepage: https://github.com/ravindravala/easy_asset_generator
 repository: https://github.com/ravindravala/easy_asset_generator
 issue_tracker: https://github.com/ravindravala/easy_asset_generator/issues
