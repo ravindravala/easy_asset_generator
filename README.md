@@ -1,255 +1,187 @@
-# Flutter Asset Generator
+# Easy Asset Generator
 
-A powerful Dart script that automatically scans your Flutter project's `assets` folder and generates type-safe, organized asset classes for easy access throughout your application.
-
-## Features
-
-✅ **Automatic Asset Scanning** - Recursively scans your `assets` folder  
-✅ **Organized by Subfolders** - Groups assets by their folder structure (images, fonts, icons, etc.)  
-✅ **Type-Safe Access** - Compile-time checking of asset paths  
-✅ **Static Optimization** - Uses singleton pattern for memory efficiency  
-✅ **Clean API** - Simple `Assets.images.logo` syntax  
-✅ **Auto-Generated** - No manual maintenance required  
-
-## Installation
-
-1. Save the asset generator script as `generate_assets.dart` in your Flutter project root
-2. Ensure you have the following folder structure:
-   ```
-   your_flutter_project/
-   ├── assets/
-   │   ├── images/
-   │   ├── fonts/
-   │   ├── icons/
-   │   └── ...
-   ├── lib/
-   └── generate_assets.dart
-   ```
-
-## Usage
-
-### Step 1: Run the Generator
-
-```bash
-dart run generate_assets.dart
-```
-
-### Step 2: Generated Structure
-
-The script will create:
-```
-lib/resources/
-├── assets.dart          # Main assets file
-├── images.dart          # Image assets
-├── fonts.dart           # Font assets
-├── icons.dart           # Icon assets
-└── ...                  # Other subfolder assets
-```
-
-### Step 3: Import in Your Flutter Code
-
-```dart
-import 'package:your_app/resources/assets.dart';
-```
-
-### Step 4: Use in Your Widgets
-
-```dart
-// Image assets
-Image.asset(Assets.images.logo)
-Image.asset(Assets.images.background)
-
-// Font assets
-Text(
-  'Custom Font Text',
-  style: TextStyle(fontFamily: Assets.fonts.roboto),
-)
-
-// Icon assets
-Image.asset(Assets.icons.home)
-```
-
-## Example Generated Code
-
-### For this asset structure:
-```
-assets/
-├── images/
-│   ├── logo.png
-│   ├── background.jpg
-│   └── profile_pic.png
-├── fonts/
-│   ├── roboto.ttf
-│   └── open_sans.ttf
-└── icons/
-    ├── home.svg
-    └── settings.svg
-```
-
-### Generated `images.dart`:
-```dart
-class Images {
-  const Images._();
-  
-  static const Images instance = Images._();
-  
-  static const String logo = 'assets/images/logo.png';
-  static const String background = 'assets/images/background.jpg';
-  static const String profilePic = 'assets/images/profile_pic.png';
-}
-```
-
-### Generated `assets.dart`:
-```dart
-import 'images.dart';
-import 'fonts.dart';
-import 'icons.dart';
-
-class Assets {
-  const Assets._();
-  
-  static const Assets instance = Assets._();
-  
-  static Images get images => Images.instance;
-  static Fonts get fonts => Fonts.instance;
-  static Icons get icons => Icons.instance;
-}
-```
-
-## Asset Access Methods
-
-### Method 1: Through Assets Class (Recommended)
-```dart
-Assets.images.logo
-Assets.fonts.roboto
-Assets.icons.home
-```
-
-### Method 2: Direct Class Access
-```dart
-Images.logo
-Fonts.roboto
-Icons.home
-```
-
-## Best Practices
-
-### 1. Asset Organization
-Organize your assets in meaningful subfolders:
-```
-assets/
-├── images/
-│   ├── logos/
-│   ├── backgrounds/
-│   └── icons/
-├── fonts/
-├── animations/
-└── data/
-```
-
-### 2. Naming Conventions
-- Use lowercase with underscores for file names: `profile_pic.png`
-- The generator converts them to camelCase: `profilePic`
-
-### 3. pubspec.yaml Configuration
-Don't forget to declare your assets in `pubspec.yaml`:
-```yaml
-flutter:
-  assets:
-    - assets/images/
-    - assets/fonts/
-    - assets/icons/
-    - assets/animations/
-```
-
-### 4. Re-run After Changes
-Run the generator again whenever you:
-- Add new asset files
-- Remove asset files
-- Reorganize asset folders
-
-## Advanced Features
-
-### Skipping Root Files
-Files placed directly in the `assets/` folder (not in subfolders) are automatically skipped and won't be included in the generated classes.
-
-### Automatic Cleanup
-The script automatically:
-- Deletes existing `lib/resources/` folder
-- Recreates it with fresh generated code
-- Prevents conflicts with previous generations
-
-### Field Name Generation
-The generator automatically converts file names to valid Dart identifiers:
-- `my-icon.png` → `myIcon`
-- `logo_2x.png` → `logo2x`
-- `background_image.jpg` → `backgroundImage`
-
-## Integration with Flutter
-
-### With Image Widget
-```dart
-Image.asset(
-  Assets.images.logo,
-  width: 100,
-  height: 100,
-)
-```
-
-### With Container Decoration
-```dart
-Container(
-  decoration: BoxDecoration(
-    image: DecorationImage(
-      image: AssetImage(Assets.images.background),
-      fit: BoxFit.cover,
-    ),
-  ),
-)
-```
-
-### With Text Style
-```dart
-Text(
-  'Custom Font',
-  style: TextStyle(
-    fontFamily: Assets.fonts.roboto,
-    fontSize: 16,
-  ),
-)
-```
-
-## Troubleshooting
-
-### Assets Not Found
-1. Ensure assets are declared in `pubspec.yaml`
-2. Run `flutter pub get` after updating pubspec.yaml
-3. Check file paths are correct
-
-### Generator Errors
-1. Verify `assets/` folder exists
-2. Ensure Dart SDK is properly installed
-3. Check folder permissions
-
-### Import Errors
-1. Make sure to import the generated assets file
-2. Check that `lib/resources/` folder was created
-3. Verify generated files have no syntax errors
-
-## Contributing
-
-Feel free to enhance this generator script with additional features like:
-- Custom naming conventions
-- Different organization patterns
-- Additional asset types
-- Configuration file support
-
-## License
-
-This asset generator script is open source and available under the MIT License.
+🚀 **Stop writing asset paths manually!**
+This package **automatically generates type-safe asset classes for each asset category** in your Flutter project.
 
 ---
 
-**Happy Coding! 🚀**
+## ⚡ Quick Start
 
-*Generated assets make your Flutter development faster and more reliable.*
+### 1. Add as Dev Dependency (Recommended)
+
+```yaml
+dev_dependencies:
+  easy_asset_generator: <latest_version>
+```
+
+or use local path during development:
+
+```yaml
+dev_dependencies:
+  easy_asset_generator:
+    path: ../
+```
+
+### **OR: Activate Globally**
+
+You can also use the package as a global tool:
+
+```bash
+dart pub global activate easy_asset_generator
+```
+
+---
+
+### 2. Organize Your Assets
+
+```
+your_project/
+├── assets/
+│   ├── images/      # .png, .jpg, etc.
+│   └── icons/       # .svg, etc.
+├── lib/
+└── pubspec.yaml
+```
+
+---
+
+### 3. Run the Generator
+
+If used as a dev dependency:
+
+```bash
+dart run easy_asset_generator
+```
+
+If used globally:
+
+```bash
+easy_asset_generator
+```
+
+---
+
+### 4. Import & Use
+
+Import the generated category file(s) you need:
+
+```dart
+import 'package:your_app/resources/images.dart';
+import 'package:your_app/resources/icons.dart';
+```
+
+---
+
+## 🎯 What You Get
+
+**Before** (manual, error-prone):
+
+```dart
+Image.asset('assets/images/logo.png')      // ❌ Typos possible
+Image.asset('assets/images/3d.png')        // ❌ Hard to maintain  
+Image.asset('assets/images/default.png')   // ❌ Reserved word risk
+```
+
+**After** (type-safe, auto-generated):
+
+```dart
+Image.asset(Images.imgLogo)                // ✅ Autocomplete
+Image.asset(Images.img3d)                  // ✅ Valid identifier
+Image.asset(Images.imgDefault)             // ✅ No reserved word risk
+```
+
+---
+
+## 📁 Generated Files
+
+After running the script, you’ll get:
+
+```
+lib/resources/
+├── images.dart     # All image asset constants
+├── icons.dart      # All icon asset constants
+# ...one file per asset category
+```
+
+---
+
+## 🔧 Smart Naming
+
+Handles problematic file names:
+
+| File Name     | Generated Name | Why                   |
+| ------------- | -------------- | --------------------- |
+| `logo.png`    | `imgLogo`      | Images → `img` prefix |
+| `home.svg`    | `svgHome`      | SVGs → `svg` prefix   |
+| `3d.png`      | `img3d`        | Handles numbers       |
+| `default.svg` | `svgDefault`   | Avoids reserved words |
+
+---
+
+## 🎨 Usage Example
+
+```dart
+import 'package:your_app/resources/images.dart';
+import 'package:your_app/resources/icons.dart';
+
+// Images
+Image.asset(Images.imgLogo);
+
+// SVG icons (if using flutter_svg)
+SvgPicture.asset(Icons.svgHome);
+```
+
+---
+
+## ⚠️ Notes
+
+1. **Add assets to pubspec.yaml:**
+
+   ```yaml
+   flutter:
+     assets:
+       - assets/images/
+       - assets/icons/
+   ```
+
+2. **Re-run after changes:**
+
+   ```bash
+   dart run easy_asset_generator
+   ```
+
+   or, if activated globally:
+
+   ```bash
+   easy_asset_generator
+   ```
+
+3. **Put assets in subfolders** (not directly in `assets/`).
+
+---
+
+## 🚨 Troubleshooting
+
+| Problem                    | Solution                                      |
+| -------------------------- | --------------------------------------------- |
+| `assets/ folder not found` | Create an `assets/` folder in project root    |
+| `No files found`           | Add files to subfolders like `assets/images/` |
+| `Import errors`            | Run `flutter pub get` after generation        |
+| `Assets not loading`       | Check your `pubspec.yaml` asset section       |
+
+---
+
+## 🎉 Benefits
+
+* ✅ No more typos in asset paths
+* ✅ Autocomplete for all assets
+* ✅ Compile-time safety
+* ✅ Handles tricky names (numbers, reserved words)
+* ✅ Organized by category (images, icons, etc.)
+* ✅ **Just import the category file you need**
+
+---
+
+**Made with ❤️ by [Ravindra Vala](https://www.linkedin.com/in/ravindra-vala-3b469315a/)**
+
+*Turn asset management from a chore into a breeze!* 🚀

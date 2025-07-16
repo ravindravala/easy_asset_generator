@@ -3,6 +3,6 @@
 /// More dartdocs go here.
 library;
 
-export 'src/easy_asset_generator_base.dart';
+export 'src/generator/asset_generator.dart';
 
 // TODO: Export any libraries intended for clients of this package.
